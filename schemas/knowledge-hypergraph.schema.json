@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/knowledge-hypergraph.schema.json",
+  "title": "Knowledge Hypergraph",
+  "description": "Typed directed hypergraph H = (V, E) plus the prerequisite DAG G_pr = (V_skill, →_pr) (paper Eq. 3).",
+  "type": "object",
+  "required": ["vertices", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "vertices": {
+      "type": "array",
+      "items": { "$ref": "vertex.schema.json" },
+      "description": "All vertices of H."
+    },
+    "edges": {
+      "type": "array",
+      "items": { "$ref": "hyperedge.schema.json" },
+      "description": "All hyperedges of H."
+    },
+    "prerequisites": {
+      "type": "array",
+      "description": "Edges of the prerequisite DAG over V_skill (paper Eq. 3). Each entry encodes 'from is a prerequisite for to'.",
+      "items": {
+        "type": "object",
+        "required": ["from", "to"],
+        "additionalProperties": false,
+        "properties": {
+          "from": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+          "to":   { "$ref": "definitions.schema.json#/$defs/Identifier" }
+        }
+      }
+    },
+    "edgeKindWeights": {
+      "type": "object",
+      "description": "Override default per-kind weights w_κ. Keys are edge kinds.",
+      "additionalProperties": { "type": "number", "minimum": 0 }
+    }
+  }
+}

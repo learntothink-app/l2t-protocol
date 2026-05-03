@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/definitions.schema.json",
+  "title": "L2T shared definitions",
+  "description": "Reusable type fragments referenced by every other schema.",
+  "$defs": {
+    "Identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,62}$",
+      "description": "Stable identifier used for cross-referencing within a methodology."
+    },
+    "SemanticVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?$"
+    },
+    "VertexType": {
+      "type": "string",
+      "enum": ["concept", "skill", "metaskill", "error", "task", "drill", "probe", "topic"]
+    },
+    "EdgeKind": {
+      "type": "string",
+      "enum": [
+        "requires",
+        "trains",
+        "diagnoses",
+        "error_signature",
+        "meta_helps_learn",
+        "transfer_variant"
+      ],
+      "description": "Base hyperedge kinds. Authoring runtimes may add custom kinds; default propagation weights only apply to the base set."
+    },
+    "EvaluationPolicy": {
+      "type": "string",
+      "enum": ["AUTO_COMPUTE", "SELF_CHECK_COMPUTE", "SELF_CHECK_PROOF"]
+    },
+    "SpoilerLevel": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "AnswerSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["numeric", "exact_text", "regex", "choice", "semantic", "code_output", "structured"]
+        },
+        "expectedValue": {},
+        "expectedText": { "type": "string" },
+        "regex": { "type": "string" },
+        "choices": { "type": "array", "items": { "type": "string" } },
+        "acceptableChoices": { "type": "array", "items": { "type": "string" } },
+        "acceptableIdeas": { "type": "array", "items": { "type": "string" } },
+        "mustMentionAny": { "type": "array", "items": { "type": "string" } },
+        "tolerance": { "type": "number", "minimum": 0 },
+        "schema": { "type": "object" }
+      }
+    },
+    "ThinkingTool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "kind", "contentTex"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Identifier" },
+        "name": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": ["theorem", "method", "technique", "heuristic", "definition"]
+        },
+        "contentTex": { "type": "string" }
+      }
+    },
+    "ThinkingSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "toolIds"],
+      "properties": {
+        "version": { "type": "integer", "minimum": 0 },
+        "toolIds": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Identifier" }
+        }
+      }
+    },
+    "RetentionSchedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["delaysDays"],
+      "properties": {
+        "delaysDays": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1 },
+          "default": [1, 3, 7, 14]
+        }
+      }
+    }
+  }
+}

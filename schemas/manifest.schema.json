@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/manifest.schema.json",
+  "title": "L2T Protocol Manifest",
+  "description": "Top-level manifest tying a methodology to its protocol version and component schemas.",
+  "type": "object",
+  "required": ["protocolVersion", "name"],
+  "additionalProperties": false,
+  "properties": {
+    "protocolVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the L2T protocol this artifact targets."
+    },
+    "name": {
+      "type": "string",
+      "const": "l2t-protocol"
+    },
+    "schemas": {
+      "type": "object",
+      "description": "Map from primitive name to schema URI.",
+      "additionalProperties": { "type": "string", "format": "uri-reference" }
+    }
+  }
+}

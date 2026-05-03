@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/task.schema.json",
+  "title": "Task",
+  "description": "A pedagogical task. Decomposes into SearchSteps, exposes a HintLadder, and may declare transfer variants and a retention schedule.",
+  "type": "object",
+  "required": ["id", "concepts", "skills", "steps", "hintLadder"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+    "title": { "type": "string" },
+    "statementTex": {
+      "type": "string",
+      "description": "The student-facing problem statement (markdown / LaTeX)."
+    },
+    "concepts": {
+      "type": "array",
+      "items": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+      "description": "Concept vertices this task addresses; gates THEORY_CHECK invariant."
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "definitions.schema.json#/$defs/Identifier" }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "search-step.schema.json" }
+    },
+    "hintLadder": { "$ref": "hint-ladder.schema.json" },
+    "transferVariantIds": {
+      "type": "array",
+      "items": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+      "description": "References to other Tasks that test the same skills with structural alterations (paper Sec. IV.B)."
+    },
+    "retentionSchedule": { "$ref": "definitions.schema.json#/$defs/RetentionSchedule" },
+    "answerSpec": {
+      "$ref": "definitions.schema.json#/$defs/AnswerSpec",
+      "description": "Final-answer spec when the task itself is graded as a whole."
+    },
+    "jStar": {
+      "$ref": "definitions.schema.json#/$defs/SpoilerLevel",
+      "description": "Task-level threshold for proactive hint discipline. Defaults to 1."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

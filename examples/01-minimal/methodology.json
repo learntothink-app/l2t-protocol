@@ -1,0 +1,82 @@
+{
+  "protocolVersion": "0.1.0",
+  "methodologyId": "minimal_demo",
+  "methodologyVersion": "1.0.0",
+  "title": "Minimal demo: parity of a binary number",
+  "description": "Smallest end-to-end conformant L2T methodology. One topic, two concepts, one skill, one task with a single SearchStep, one MicroTheory, one Probe.",
+  "domain": "informatics",
+  "audience": "high_school",
+  "language": "en",
+  "knowledgeHypergraph": {
+    "vertices": [
+      { "id": "topic_binary", "type": "topic", "label": "Binary numbers" },
+      { "id": "concept_binary", "type": "concept", "label": "Binary representation",
+        "description": "Every non-negative integer has a unique base-2 representation." },
+      { "id": "concept_parity", "type": "concept", "label": "Parity",
+        "description": "An integer is even iff its trailing binary digit is 0." },
+      { "id": "skill_count_ones", "type": "skill", "label": "Count 1s in a binary string" },
+      { "id": "task_parity_of_n", "type": "task", "label": "Parity of N" },
+      { "id": "drill_count_ones_8bit", "type": "drill", "label": "Count 1s in 8-bit strings" },
+      { "id": "probe_what_is_parity", "type": "probe", "label": "What is the parity of 13?" },
+      { "id": "error_swap_endianness", "type": "error", "label": "Reads bits little-endian" }
+    ],
+    "edges": [
+      { "id": "e1", "kind": "trains", "tail": ["task_parity_of_n"], "head": ["skill_count_ones"] },
+      { "id": "e2", "kind": "trains", "tail": ["drill_count_ones_8bit"], "head": ["skill_count_ones"] },
+      { "id": "e3", "kind": "diagnoses", "tail": ["probe_what_is_parity"], "head": ["skill_count_ones"] },
+      { "id": "e4", "kind": "error_signature", "tail": ["error_swap_endianness"], "head": ["skill_count_ones"], "weight": 1.8 }
+    ],
+    "prerequisites": []
+  },
+  "microTheories": [
+    {
+      "id": "mt_parity",
+      "title": "Parity from the last binary digit",
+      "contentTex": "An integer $N$ is even iff its trailing binary digit (its least-significant bit) is 0; otherwise it is odd.",
+      "concepts": ["concept_binary", "concept_parity"],
+      "checkQuestion": { "probeId": "probe_what_is_parity" },
+      "evalPolicy": "AUTO_COMPUTE"
+    }
+  ],
+  "probes": [
+    {
+      "id": "probe_what_is_parity",
+      "questionTex": "What is the parity of $13$?",
+      "targetSkills": ["skill_count_ones"],
+      "answerSpec": { "kind": "choice", "choices": ["even", "odd"], "acceptableChoices": ["odd"] },
+      "infoGainPrior": 0.5
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task_parity_of_n",
+      "title": "Parity of N",
+      "statementTex": "Given a positive integer $N$, decide whether $N$ is even or odd by inspecting its binary representation.",
+      "concepts": ["concept_binary", "concept_parity"],
+      "skills": ["skill_count_ones"],
+      "steps": [
+        {
+          "id": "step_lsb",
+          "targetLabel": "least_significant_bit",
+          "resultSpec": { "kind": "choice", "choices": ["0", "1"] },
+          "evaluationPolicy": "AUTO_COMPUTE"
+        }
+      ],
+      "hintLadder": {
+        "hints": [
+          { "id": "h1", "spoilerLevel": 0, "kind": "framing_question", "text": "Which digit of the binary representation tells you the parity?" },
+          { "id": "h2", "spoilerLevel": 1, "kind": "directed_question", "text": "Look at the trailing digit specifically: 0 or 1?" },
+          { "id": "h3", "spoilerLevel": 3, "kind": "technique_hint", "text": "Compute $N \\bmod 2$." }
+        ]
+      },
+      "answerSpec": { "kind": "choice", "choices": ["even", "odd"] },
+      "jStar": 1
+    }
+  ],
+  "reliabilityFunction": {
+    "kind": "heuristic",
+    "coefficients": { "alpha": 0.4, "beta": 0.2, "gamma": 0.6, "delta": 0.3 },
+    "qMin": 0.05
+  },
+  "metricsConfig": { "kappa": 0.5, "qLow": 0.3, "retentionDelaysDays": [1, 3, 7] }
+}

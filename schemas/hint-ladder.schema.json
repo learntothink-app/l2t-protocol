@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/hint-ladder.schema.json",
+  "title": "HintLadder",
+  "description": "Ordered list of hints with monotonically non-decreasing spoiler level (paper Eq. 24).",
+  "type": "object",
+  "required": ["hints"],
+  "additionalProperties": false,
+  "properties": {
+    "hints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "spoilerLevel", "text"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+          "spoilerLevel": { "$ref": "definitions.schema.json#/$defs/SpoilerLevel" },
+          "text": { "type": "string" },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "framing_question",
+              "directed_question",
+              "search_direction",
+              "technique_hint",
+              "partial_solution",
+              "full_solution"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$comment": "The non-decreasing spoiler-level constraint cannot be expressed in pure JSON Schema; the reference validator enforces it programmatically."
+}

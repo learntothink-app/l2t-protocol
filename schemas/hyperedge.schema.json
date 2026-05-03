@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/hyperedge.schema.json",
+  "title": "Knowledge Hypergraph Hyperedge",
+  "description": "A typed directed hyperedge e = (tail(e), head(e), kind(e)) per paper Eq. (2). Tail and head are non-empty subsets of V.",
+  "type": "object",
+  "required": ["id", "kind", "tail", "head"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "definitions.schema.json#/$defs/Identifier"
+    },
+    "kind": {
+      "oneOf": [
+        { "$ref": "definitions.schema.json#/$defs/EdgeKind" },
+        {
+          "type": "string",
+          "pattern": "^x_[a-z0-9_]+$",
+          "description": "Custom edge kind, prefixed with 'x_'. Default propagation weights do not apply."
+        }
+      ]
+    },
+    "tail": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+      "description": "Source vertex ids."
+    },
+    "head": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+      "description": "Target vertex ids."
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Per-edge weight w_κ,e in paper Eq. (5). Defaults to the per-kind weight if omitted."
+    },
+    "metadata": { "type": "object" }
+  }
+}

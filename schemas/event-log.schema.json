@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/event-log.schema.json",
+  "title": "Event log entry",
+  "description": "One immutable record in the append-only L2T event log (chapter 03).",
+  "type": "object",
+  "required": [
+    "eventId",
+    "sessionId",
+    "studentId",
+    "methodologyId",
+    "methodologyVersion",
+    "controllerState",
+    "timestamp",
+    "kind",
+    "payload",
+    "reliability"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sessionId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "studentId": {
+      "type": "string",
+      "description": "Pseudonymous student identifier."
+    },
+    "methodologyId": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+    "methodologyVersion": { "$ref": "definitions.schema.json#/$defs/SemanticVersion" },
+    "controllerState": {
+      "type": "string",
+      "enum": [
+        "GREETING",
+        "THEORY_PRESENT",
+        "THEORY_CHECK",
+        "TASK_PRESENT",
+        "WAIT_INTENT",
+        "INTENT_CLARIFY",
+        "STEP_MATCH",
+        "ASK_RESULT",
+        "EVAL_RESULT",
+        "GIVE_HINT",
+        "CHECK_TASK_GATE",
+        "TASK_DONE",
+        "TRANSFER",
+        "RETENTION",
+        "SUMMARY",
+        "BLOCK_DONE"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "session_start",
+        "session_end",
+        "theory_present",
+        "theory_checked",
+        "task_present",
+        "step_match",
+        "eval_result",
+        "hint_delivered",
+        "task_done",
+        "transfer_passed",
+        "block_done",
+        "retention_due",
+        "summary",
+        "answer_submitted",
+        "hint_requested",
+        "intent_clarified",
+        "pause",
+        "give_up",
+        "belief_update",
+        "policy_decision",
+        "reliability_revised",
+        "correction",
+        "redaction"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "description": "Event-kind-specific fields. The validator checks selected kinds against more specific shapes."
+    },
+    "reliability": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "q_t per chapter 07. Controller-emitted events MUST set this to 1.0."
+    },
+    "previousEventId": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "Pointer to the previous event in the same session, for tamper-evident chaining."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "answer_submitted",
+              "hint_requested",
+              "intent_clarified",
+              "pause",
+              "give_up"
+            ]
+          }
+        }
+      },
+      "then": {},
+      "else": {
+        "properties": {
+          "reliability": { "const": 1.0 }
+        }
+      }
+    }
+  ]
+}

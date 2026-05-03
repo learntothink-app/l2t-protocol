@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/vertex.schema.json",
+  "title": "Knowledge Hypergraph Vertex",
+  "description": "A vertex of the typed directed hypergraph H = (V, E). Vertex partitioning by type follows paper Eq. (1).",
+  "type": "object",
+  "required": ["id", "type", "label"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "definitions.schema.json#/$defs/Identifier"
+    },
+    "type": {
+      "$ref": "definitions.schema.json#/$defs/VertexType"
+    },
+    "label": {
+      "type": "string",
+      "description": "Human-readable name."
+    },
+    "description": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Implementation-specific additional fields. Reserved for authoring runtimes; not consumed by the propagation operator."
+    }
+  }
+}

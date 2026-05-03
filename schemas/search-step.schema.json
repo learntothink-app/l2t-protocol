@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/search-step.schema.json",
+  "title": "SearchStep",
+  "description": "One unit of a Task's solution decomposition. Internal to the tutor; not shown verbatim to the student.",
+  "type": "object",
+  "required": ["id", "targetLabel", "resultSpec", "evaluationPolicy"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+    "targetLabel": {
+      "type": "string",
+      "description": "Name of the variable or quantity being solved for."
+    },
+    "resultSpec": { "$ref": "definitions.schema.json#/$defs/AnswerSpec" },
+    "evaluationPolicy": { "$ref": "definitions.schema.json#/$defs/EvaluationPolicy" },
+    "thinkingToolIds": {
+      "type": "array",
+      "items": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+      "description": "ThinkingTools expected to be applicable to this step."
+    },
+    "solutionTex": {
+      "type": "string",
+      "description": "Optional canonical written form of the step's solution; used only when the student has earned full reveal."
+    },
+    "hintLadder": { "$ref": "hint-ladder.schema.json" },
+    "jStar": {
+      "$ref": "definitions.schema.json#/$defs/SpoilerLevel",
+      "description": "Lowest hint level that may NOT be delivered without an explicit hint_requested event. Defaults to 1."
+    }
+  }
+}

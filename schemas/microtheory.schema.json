@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/microtheory.schema.json",
+  "title": "MicroTheory",
+  "description": "Atomic theory block. Carries declarative content and an embedded check probe used by the controller's THEORY_CHECK state.",
+  "type": "object",
+  "required": ["id", "contentTex", "concepts", "checkQuestion", "evalPolicy"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+    "title": { "type": "string" },
+    "contentTex": {
+      "type": "string",
+      "description": "Markdown / LaTeX prose introducing the concepts."
+    },
+    "concepts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "definitions.schema.json#/$defs/Identifier" }
+    },
+    "checkQuestion": {
+      "oneOf": [
+        { "type": "object", "$ref": "probe.schema.json" },
+        {
+          "type": "object",
+          "required": ["probeId"],
+          "additionalProperties": false,
+          "properties": {
+            "probeId": { "$ref": "definitions.schema.json#/$defs/Identifier" }
+          }
+        }
+      ],
+      "description": "Either an inline Probe object or a reference to a probe defined elsewhere in the methodology."
+    },
+    "evalPolicy": { "$ref": "definitions.schema.json#/$defs/EvaluationPolicy" }
+  }
+}

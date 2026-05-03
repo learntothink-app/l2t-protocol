@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learntothink-app.github.io/l2t-protocol/schemas/probe.schema.json",
+  "title": "Probe",
+  "description": "Diagnostic question selected by Bayesian information-gain maximisation (paper Eq. 8).",
+  "type": "object",
+  "required": ["id", "targetSkills", "answerSpec", "infoGainPrior"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+    "questionTex": {
+      "type": "string",
+      "description": "The probe's question text (markdown / LaTeX)."
+    },
+    "targetSkills": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "definitions.schema.json#/$defs/Identifier" }
+    },
+    "targetErrors": {
+      "type": "array",
+      "items": { "$ref": "definitions.schema.json#/$defs/Identifier" },
+      "description": "Error vertices the probe is calibrated to discriminate."
+    },
+    "answerSpec": { "$ref": "definitions.schema.json#/$defs/AnswerSpec" },
+    "infoGainPrior": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Non-negative scalar seeding greedy probe selection before evidence accrues."
+    }
+  }
+}
