@@ -68,6 +68,7 @@ implementations belong to the runtime.
 
 ## Reference paper
 
-Chuprov, A. *LearnToThink: a hybrid deterministic-controller + POMDP
-framework for adaptive tutoring* (2026). All chapter cross-references
-of the form `(Eq. N)` or `(Sec. N)` point to that paper.
+Yusupova, T., Popov, A., Smorchkov, D., Chuprov, A. *LearnToThink:
+Structuring Adaptive Tutoring via Typed Hypergraphs and Verifiable
+Pedagogy* (2026). All chapter cross-references of the form `(Eq. N)`
+or `(Sec. N)` point to that paper.

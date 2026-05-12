@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use the L2T Protocol, please cite the paper that defines it."
+title: "L2T Protocol: An open standard for executable pedagogy"
+version: "0.1.0"
+date-released: "2026-05-12"
+authors:
+  - family-names: "Yusupova"
+    given-names: "Taya"
+    affiliation: "Independent Researcher"
+    email: "taya@learntothink.app"
+  - family-names: "Popov"
+    given-names: "Anatoly"
+    affiliation: "Faculty of Mathematics, HSE University"
+  - family-names: "Smorchkov"
+    given-names: "Dmitrii"
+    affiliation: "University of Florida"
+    email: "dsmorchkov@ufl.edu"
+  - family-names: "Chuprov"
+    given-names: "Artem"
+    affiliation: "Applied AI Institute"
+license: Apache-2.0
+repository-code: "https://github.com/learntothink-app/l2t-protocol"
+preferred-citation:
+  type: article
+  title: "LearnToThink: Structuring Adaptive Tutoring via Typed Hypergraphs and Verifiable Pedagogy"
+  authors:
+    - family-names: "Yusupova"
+      given-names: "Taya"
+    - family-names: "Popov"
+      given-names: "Anatoly"
+    - family-names: "Smorchkov"
+      given-names: "Dmitrii"
+    - family-names: "Chuprov"
+      given-names: "Artem"
+  year: 2026
+  # arxiv-id: uncomment and fill after arXiv submission
