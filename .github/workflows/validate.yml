@@ -1,0 +1,39 @@
+name: Validator CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install validator dependencies
+        run: |
+          cd validator
+          npm install
+
+      - name: Build validator
+        run: |
+          cd validator
+          npm run build
+
+      - name: Validate the minimal example methodology
+        run: |
+          cd validator
+          node dist/cli.js methodology ../examples/01-minimal/methodology.json
+
+      - name: Run validator tests
+        run: |
+          cd validator
+          npm test
